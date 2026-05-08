@@ -32,11 +32,10 @@
     overflow-x: hidden;
   }
 
-  /* Custom Camera Cursor */
   .cursor {
     width: 36px; height: 36px;
     position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
+    pointer-events: none; z-index: 99999;
     transform: translate(-50%, -50%);
     transition: transform 0.12s ease;
   }
@@ -46,13 +45,12 @@
     border: 1px solid rgba(225,161,32,0.35);
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
+    pointer-events: none; z-index: 99998;
     transform: translate(-50%, -50%);
     transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
     opacity: 0.5;
   }
 
-  /* Noise overlay */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -89,7 +87,7 @@
     letter-spacing: 0.18em;
     color: #e1a120;
     font-style: normal;
-    font-weight: 300;
+    font-weight: 400;
     border-left: 1px solid var(--border-strong);
     padding-left: 0.8rem;
     text-transform: none;
@@ -117,11 +115,59 @@
   /* HERO */
   #hero {
     min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
     padding: 0 4rem 6rem;
     position: relative;
     overflow: hidden;
+    gap: 0 4rem;
+  }
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 0;
+    position: relative; z-index: 1;
+  }
+  .hero-photo-wrap {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4rem;
+    position: relative; z-index: 1;
+  }
+  .hero-photo {
+    width: 300px;
+    height: 420px;
+    object-fit: cover;
+    object-position: top center;
+    border: 1px solid var(--border-strong);
+    display: block;
+    filter: grayscale(15%) contrast(1.05);
+  }
+  .hero-photo-frame {
+    position: relative;
+  }
+  .hero-photo-frame::before {
+    content: '';
+    position: absolute;
+    top: -12px; right: -12px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--border);
+    z-index: -1;
+  }
+  .hero-photo-frame::after {
+    content: 'D Striver Studio';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    background: rgba(10,10,10,0.82);
+    border-top: 1px solid var(--border-strong);
+    padding: 0.7rem 1rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
   }
   .hero-bg {
     position: absolute; inset: 0;
@@ -152,43 +198,14 @@
     animation: fadeUp 0.9s 0.3s forwards;
     white-space: nowrap;
   }
-  .hero-name em {
-    font-style: italic;
-    color: #e1a120;
-  }
+  .hero-name em { font-style: italic; color: #e1a120; }
   .hero-divider {
-    height: 1px;
+    width: 100%; height: 1px;
     background: var(--border-strong);
-    position: relative; z-index: 1;
-  }
-  .hero-name-block {
-    display: table;
-    flex-direction: column;
-    position: relative; z-index: 1;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.3s forwards;
-  }
-  .hero-name-block .hero-name {
-    opacity: 1;
-    animation: none;
-    display: block;
-  }
-  .hero-name-block .hero-divider {
-    width: 100%;
     margin-top: 1.4rem;
-    opacity: 1;
-    animation: none;
-    display: block;
-  }
-  .hero-sub {
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--white-muted);
-    margin-top: 2rem;
     position: relative; z-index: 1;
     opacity: 0;
-    animation: fadeUp 0.9s 0.7s forwards;
+    animation: fadeUp 0.9s 0.45s forwards;
   }
   .hero-cta {
     margin-top: 3.5rem;
@@ -243,12 +260,7 @@
 
   /* SECTIONS */
   section { position: relative; z-index: 1; }
-
-  .section-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 8rem 4rem;
-  }
+  .section-inner { max-width: 1280px; margin: 0 auto; padding: 8rem 4rem; }
 
   .section-label {
     font-size: 0.78rem;
@@ -258,11 +270,7 @@
     margin-bottom: 1rem;
     display: flex; align-items: center; gap: 1rem;
   }
-  .section-label::before {
-    content: '';
-    width: 30px; height: 1px;
-    background: var(--gold);
-  }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
 
   .section-title {
     font-family: 'Cormorant Garamond', serif;
@@ -278,139 +286,94 @@
   .about-grid {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
-    gap: 8rem;
-    margin-top: 5rem;
-    align-items: start;
+    gap: 8rem; margin-top: 5rem; align-items: start;
   }
-  .about-img-wrap {
-    position: relative;
-  }
+  .about-img-wrap { position: relative; }
   .about-img-placeholder {
-    width: 100%;
-    aspect-ratio: 3/4;
+    width: 100%; aspect-ratio: 3/4;
     background: var(--black-card);
     border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 1rem;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .about-img-placeholder::before {
     content: '';
     position: absolute; inset: 0;
     background: radial-gradient(ellipse at 50% 100%, rgba(225,161,32,0.08), transparent 70%);
   }
-  .img-icon {
-    font-size: 2.5rem; opacity: 0.3;
-  }
-  .img-note {
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--white-muted); opacity: 0.6;
-  }
+  .img-icon { font-size: 2.5rem; opacity: 0.3; }
+  .img-note { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-muted); opacity: 0.6; }
   .about-img-badge {
     position: absolute; bottom: -1.5rem; right: -1.5rem;
-    background: var(--gold);
-    color: var(--black);
+    background: var(--gold); color: var(--black);
     padding: 1.2rem 1.5rem;
     font-size: 0.65rem; letter-spacing: 0.2em;
     text-transform: uppercase; font-weight: 400;
   }
   .about-content { padding-top: 1rem; }
-  .about-body {
-    font-size: 1.1rem;
-    line-height: 1.9;
-    color: var(--white-muted);
-    margin-top: 2rem;
-  }
+  .about-body { font-size: 1.1rem; line-height: 1.9; color: var(--white-muted); margin-top: 2rem; }
   .about-body strong { color: var(--white); font-weight: 300; }
   .about-stats {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 2rem; margin-top: 4rem;
-    border-top: 1px solid var(--border);
-    padding-top: 3rem;
+    border-top: 1px solid var(--border); padding-top: 3rem;
   }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem; font-weight: 300;
-    color: var(--gold-light); line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.62rem; letter-spacing: 0.25em;
-    text-transform: uppercase; color: var(--white-muted);
-    margin-top: 0.5rem;
-  }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold-light); line-height: 1; }
+  .stat-label { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--white-muted); margin-top: 0.5rem; }
 
   /* PORTFOLIO */
   #portfolio { border-top: 1px solid var(--border); }
-  .portfolio-header {
-    display: flex; justify-content: space-between;
-    align-items: flex-end; margin-bottom: 4rem;
-  }
+  .portfolio-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
   .filter-btns { display: flex; gap: 1rem; }
   .filter-btn {
     font-family: 'Josefin Sans', sans-serif;
-    font-size: 0.62rem; letter-spacing: 0.2em;
-    text-transform: uppercase;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
     background: none; border: 1px solid var(--border);
     color: var(--white-muted); padding: 0.55rem 1.2rem;
     cursor: none; transition: all 0.3s;
   }
-  .filter-btn.active, .filter-btn:hover {
-    background: var(--gold); color: var(--black);
-    border-color: var(--gold);
-  }
+  .filter-btn.active, .filter-btn:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
 
-  /* Portfolio grid — all same 4/3 ratio, 3-column → 6 cards = 2 neat rows */
   .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.2rem;
   }
-
   .portfolio-item {
     background: var(--black-card);
     border: 1px solid var(--border);
-    overflow: hidden;
-    position: relative;
-    cursor: none;
+    overflow: hidden; position: relative; cursor: none;
   }
-
   .portfolio-img {
-    width: 100%;
-    aspect-ratio: 3/4;
+    width: 100%; aspect-ratio: 3/4;
     background: var(--black-card);
     display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    position: relative;
+    overflow: hidden; position: relative;
     transition: transform 0.6s;
   }
   .portfolio-img img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: cover; display: block;
     transition: transform 0.6s;
   }
   .portfolio-item:hover .portfolio-img img { transform: scale(1.06); }
   .portfolio-img-bg {
     position: absolute; inset: 0;
     background: linear-gradient(135deg, rgba(225,161,32,0.05) 0%, transparent 60%);
-    transition: opacity 0.4s;
+    pointer-events: none;
   }
-  .portfolio-item:hover .portfolio-img-bg { opacity: 2; }
   .portfolio-overlay {
     position: absolute; bottom: 0; left: 0; right: 0;
     background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 100%);
     padding: 2rem 1.5rem 1.5rem;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
+    opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
   }
   .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 
   /* LIGHTBOX */
   .lightbox {
-    display: none;
-    position: fixed; inset: 0; z-index: 10000;
+    display: none; position: fixed; inset: 0; z-index: 10000;
     background: rgba(5,5,5,0.96);
     backdrop-filter: blur(12px);
     align-items: center; justify-content: center;
@@ -420,8 +383,7 @@
     max-width: 88vw; max-height: 84vh;
     object-fit: contain;
     border: 1px solid var(--border);
-    display: block;
-    user-select: none;
+    display: block; user-select: none;
     transition: opacity 0.25s ease;
   }
   .lightbox img.fading { opacity: 0; }
@@ -461,94 +423,41 @@
   }
   .lightbox-dot.active { background: var(--gold); opacity: 1; }
 
-  /* SERVICES (Work) */
+  /* SERVICES */
   #work { border-top: 1px solid var(--border); }
-  .services-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem; margin-top: 4rem;
-  }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
   .service-card {
-    background: var(--black-card);
-    border: 1px solid var(--border);
-    padding: 2.5rem 2rem;
-    transition: border-color 0.3s, transform 0.3s;
+    background: var(--black-card); border: 1px solid var(--border);
+    padding: 2.5rem 2rem; transition: border-color 0.3s, transform 0.3s;
     position: relative; overflow: hidden;
   }
   .service-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 0; height: 2px;
-    background: var(--gold);
-    transition: width 0.4s ease;
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 0; height: 2px; background: var(--gold); transition: width 0.4s ease;
   }
   .service-card:hover { border-color: var(--border-strong); transform: translateY(-4px); }
   .service-card:hover::before { width: 100%; }
-  .service-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 4rem; font-weight: 300;
-    color: rgba(225,161,32,0.12); line-height: 1;
-    margin-bottom: 1.5rem;
-  }
-  .service-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem; font-weight: 400;
-    color: var(--white); margin-bottom: 1rem;
-  }
-  .service-desc {
-    font-size: 0.92rem; line-height: 1.8;
-    color: var(--white-muted);
-  }
+  .service-num { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: rgba(225,161,32,0.12); line-height: 1; margin-bottom: 1.5rem; }
+  .service-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--white); margin-bottom: 1rem; }
+  .service-desc { font-size: 0.92rem; line-height: 1.8; color: var(--white-muted); }
 
   /* CONTACT */
   #contact { border-top: 1px solid var(--border); }
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1.2fr;
-    gap: 8rem; margin-top: 5rem;
-  }
-  .contact-info h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem; font-weight: 300;
-    color: var(--white); margin-bottom: 1.5rem;
-  }
-  .contact-info p {
-    font-size: 0.9rem; line-height: 1.9;
-    color: var(--white-muted); margin-bottom: 3rem;
-  }
-  .contact-detail {
-    display: flex; flex-direction: column; gap: 1.5rem;
-  }
-  .contact-item {
-    display: flex; flex-direction: column; gap: 0.3rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1.2rem;
-  }
-  .contact-item-label {
-    font-size: 0.58rem; letter-spacing: 0.35em;
-    text-transform: uppercase; color: var(--gold);
-  }
-  .contact-item-val {
-    font-size: 1rem; color: var(--white);
-  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8rem; margin-top: 5rem; }
+  .contact-detail { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item { display: flex; flex-direction: column; gap: 0.3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.2rem; }
+  .contact-item-label { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
+  .contact-item-val { font-size: 1rem; color: var(--white); }
   .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-  .form-group label {
-    font-size: 0.6rem; letter-spacing: 0.3em;
-    text-transform: uppercase; color: var(--gold);
-  }
+  .form-group label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
   .form-group input, .form-group textarea, .form-group select {
-    background: var(--black-card);
-    border: 1px solid var(--border);
-    color: var(--white);
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 0.85rem;
-    padding: 0.9rem 1.2rem;
-    outline: none;
-    transition: border-color 0.3s;
-    resize: none;
+    background: var(--black-card); border: 1px solid var(--border);
+    color: var(--white); font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.85rem; padding: 0.9rem 1.2rem; outline: none;
+    transition: border-color 0.3s; resize: none;
   }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-    border-color: var(--gold-dim);
-  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold-dim); }
   .form-group textarea { min-height: 130px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
@@ -559,112 +468,84 @@
     display: flex; align-items: center; justify-content: space-between;
     position: relative; z-index: 1;
   }
-  .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; font-weight: 400;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-  }
-  .footer-copy {
-    font-size: 0.62rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--white-muted);
-  }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--gold); letter-spacing: 0.08em; }
+  .footer-copy { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-muted); }
   .footer-socials { display: flex; gap: 1.5rem; }
-  .footer-socials a {
-    font-size: 0.62rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--white-muted);
-    text-decoration: none; transition: color 0.3s;
-  }
+  .footer-socials a { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-muted); text-decoration: none; transition: color 0.3s; }
   .footer-socials a:hover { color: var(--gold); }
 
   /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes scrollPulse {
     0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
     50% { opacity: 0.4; transform: scaleY(0.7); }
   }
 
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
   .reveal-delay-3 { transition-delay: 0.3s; }
 
-  /* Divider ornament */
-  .ornament {
-    display: flex; align-items: center;
-    gap: 1rem; margin: 1.5rem 0 2rem;
-  }
+  .ornament { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 2rem; }
   .ornament-line { flex: 0 0 40px; height: 1px; background: var(--border-strong); }
-  .ornament-diamond {
-    width: 6px; height: 6px;
-    background: var(--gold);
-    transform: rotate(45deg);
-  }
+  .ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
 
-  /* ===== MOBILE RESPONSIVE ===== */
+  /* ===== MOBILE ===== */
   @media (max-width: 768px) {
     body { cursor: auto; }
     .cursor, .cursor-ring { display: none; }
 
     nav { padding: 1.2rem 1.5rem; }
-    .nav-logo { font-size: 1.1rem; }
+    .nav-logo { font-size: 1rem; }
     .nav-logo-tag { display: none; }
     .nav-links { gap: 1.2rem; }
     .nav-links a { font-size: 0.62rem; letter-spacing: 0.15em; }
 
+    /* Hero: stack vertically, photo on top */
     #hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 1.5rem 3.5rem;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      padding: 6rem 1.5rem 4rem;
       min-height: 100svh;
-      gap: 0;
+      gap: 2.5rem;
+      align-items: start;
     }
-    /* Photo comes FIRST on mobile, then name below */
     .hero-photo-wrap {
-      display: flex !important;
-      order: -1;
-      width: 100%;
+      grid-row: 1;
       justify-content: center;
-      align-items: flex-start;
-      padding: 6rem 0 2rem;
+      padding-bottom: 0;
       padding-right: 0;
     }
-    .hero-photo {
-      width: 180px;
-      height: 240px;
-    }
-    .hero-content { order: 0; }
-    .hero-name { font-size: clamp(2.2rem, 9vw, 3.5rem); white-space: normal; }
-    .hero-eyebrow { font-size: 0.65rem; margin-top: 1rem; white-space: normal; }
-    .hero-cta { flex-direction: column; align-items: stretch; gap: 0.8rem; margin-top: 2rem; }
+    .hero-photo { width: 200px; height: 280px; }
+    .hero-content { grid-row: 2; }
+    .hero-name { font-size: clamp(2.4rem, 10vw, 4rem); white-space: normal; }
+    .hero-eyebrow { font-size: 0.65rem; white-space: normal; }
+    .hero-cta { flex-direction: column; align-items: flex-start; gap: 1rem; margin-top: 2.5rem; }
     .btn-gold, .btn-outline { width: 100%; text-align: center; padding: 0.9rem 1.5rem; }
     .hero-scroll { display: none; }
 
-    .section-inner { padding: 4rem 1.5rem; }
-    .section-title { font-size: clamp(2rem, 7vw, 3rem); }
+    .section-inner { padding: 5rem 1.5rem; }
+    .section-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
 
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
     .stat-num { font-size: 2rem; }
-    .stat-label { font-size: 0.55rem; }
+    .stat-label { font-size: 0.58rem; }
 
     .portfolio-header { flex-direction: column; align-items: flex-start; gap: 2rem; }
     .filter-btns { flex-wrap: wrap; gap: 0.5rem; }
-    .filter-btn { font-size: 0.58rem; padding: 0.45rem 0.9rem; }
+    .filter-btn { font-size: 0.58rem; padding: 0.45rem 0.9rem; cursor: auto; }
+
     .portfolio-grid { grid-template-columns: 1fr 1fr; }
     .portfolio-overlay { opacity: 1; background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 60%); }
+
+    /* Lightbox mobile */
+    .lightbox-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+    .lightbox-prev { left: 0.5rem; }
+    .lightbox-next { right: 0.5rem; }
+    .lightbox img { max-width: 96vw; max-height: 78vh; }
 
     .services-grid { grid-template-columns: 1fr; gap: 1rem; }
     .service-card { padding: 1.8rem 1.5rem; }
@@ -675,21 +556,15 @@
     .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
 
-    footer {
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-      text-align: center;
-      padding: 2rem 1.5rem;
-    }
+    footer { flex-direction: column; align-items: center; gap: 1.2rem; text-align: center; padding: 2rem 1.5rem; }
     .footer-socials { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
   }
 
   @media (max-width: 480px) {
-    .hero-name { font-size: clamp(1.9rem, 10vw, 2.6rem); }
+    .hero-name { font-size: clamp(2rem, 11vw, 2.8rem); }
     .portfolio-grid { grid-template-columns: 1fr 1fr; }
     nav { padding: 1rem 1.2rem; }
-    .nav-links { gap: 0.8rem; }
+    .nav-links { gap: 1rem; }
   }
 </style>
 </head>
@@ -723,13 +598,23 @@
 <section id="hero">
   <div class="hero-bg"></div>
 
-  <div class="hero-name-block">
+  <div class="hero-content">
     <h1 class="hero-name">Dheena Dayalan <em>S.</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-eyebrow">Freelance Photographer &nbsp;&bull;&nbsp; Chennai, India</p>
+    <div class="hero-cta">
+      <a href="#portfolio" class="btn-gold">View Portfolio</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
   </div>
-  <p class="hero-eyebrow">Freelance Photographer &nbsp;&bull;&nbsp; Chennai, India</p>
-  <div class="hero-cta">
-    <a href="#portfolio" class="btn-gold">View Portfolio</a>
-    <a href="#contact" class="btn-outline">Get in Touch</a>
+
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <img class="hero-photo"
+        src="https://raw.githubusercontent.com/dheena09/portfolio/main/D%20pic.jpeg"
+        alt="Dheena Dayalan S."
+        onerror="this.parentNode.parentNode.style.display='none'">
+    </div>
   </div>
 
   <div class="hero-scroll">
@@ -747,9 +632,14 @@
     <div class="about-grid">
       <div class="about-img-wrap reveal reveal-delay-2">
         <div class="about-img-placeholder">
-          <div class="img-icon">&#9673;</div>
-          <span class="img-note">Add your portrait here</span>
-          <div class="portfolio-img-bg"></div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/D%20pic.jpeg"
+               alt="Dheena Dayalan S."
+               style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"
+               onerror="this.style.display='none';document.querySelector('.img-fallback').style.display='flex'">
+          <div class="img-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+            <div class="img-icon">&#9673;</div>
+            <span class="img-note">D Striver Studio</span>
+          </div>
         </div>
         <div class="about-img-badge">D Striver Studio</div>
       </div>
@@ -761,28 +651,19 @@
           <div class="ornament-line"></div>
         </div>
         <p class="about-body reveal reveal-delay-2">
-          I'm <strong>Dheena Dayalan S.</strong>, a freelance photographer based in Chennai, India. 
-          Through <strong>D Striver Studio</strong>, I bring a passionate, detail-driven approach to every frame — 
+          I'm <strong>Dheena Dayalan S.</strong>, a freelance photographer based in Chennai, India.
+          Through <strong>D Striver Studio</strong>, I bring a passionate, detail-driven approach to every frame —
           finding beauty in fleeting light, raw emotion, and the quiet stories hidden in plain sight.
         </p>
         <p class="about-body reveal reveal-delay-3" style="margin-top:1.2rem;">
-          From intimate portraits to sprawling landscapes, from weddings to editorial work — 
-          my lens seeks the <strong>authentic moment</strong>, the one that can never be staged, 
+          From intimate portraits to sprawling landscapes, from weddings to editorial work —
+          my lens seeks the <strong>authentic moment</strong>, the one that can never be staged,
           only witnessed.
         </p>
         <div class="about-stats reveal reveal-delay-2">
-          <div>
-            <div class="stat-num">2+</div>
-            <div class="stat-label">Years of Experience</div>
-          </div>
-          <div>
-            <div class="stat-num">91+</div>
-            <div class="stat-label">Projects Completed</div>
-          </div>
-          <div>
-            <div class="stat-num">50+</div>
-            <div class="stat-label">Happy Clients</div>
-          </div>
+          <div><div class="stat-num">2+</div><div class="stat-label">Years of Experience</div></div>
+          <div><div class="stat-num">91+</div><div class="stat-label">Projects Completed</div></div>
+          <div><div class="stat-num">50+</div><div class="stat-label">Happy Clients</div></div>
         </div>
       </div>
     </div>
@@ -808,14 +689,13 @@
       </div>
     </div>
 
-    <!-- Portfolio grid: cover card per category, clicks open lightbox -->
     <div class="portfolio-grid" id="portfolioGrid">
 
-      <!-- Portraits -->
       <div class="portfolio-item reveal" data-cat="portrait" onclick="openLightbox('portrait')">
         <div class="portfolio-img">
-          <img src="Portraits/1.jpg" alt="Portraits" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Portraits/01.jpg" alt="Portraits"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Portraits/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -824,11 +704,11 @@
         </div>
       </div>
 
-      <!-- Weddings -->
       <div class="portfolio-item reveal reveal-delay-1" data-cat="wedding" onclick="openLightbox('wedding')">
         <div class="portfolio-img">
-          <img src="Weddings/1.jpg" alt="Weddings" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Weddings/01.jpg" alt="Weddings"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Weddings/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -837,11 +717,11 @@
         </div>
       </div>
 
-      <!-- New Life -->
       <div class="portfolio-item reveal reveal-delay-2" data-cat="newlife" onclick="openLightbox('newlife')">
         <div class="portfolio-img">
-          <img src="Newlife/1.jpg" alt="New Life" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Newlife/01.jpg" alt="New Life"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Newlife/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -850,11 +730,11 @@
         </div>
       </div>
 
-      <!-- Celebrations -->
       <div class="portfolio-item reveal" data-cat="celebration" onclick="openLightbox('celebration')">
         <div class="portfolio-img">
-          <img src="Celebrations/1.jpg" alt="Celebrations" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Celebrations/01.jpg" alt="Celebrations"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Celebrations/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -863,11 +743,11 @@
         </div>
       </div>
 
-      <!-- Corporate -->
       <div class="portfolio-item reveal reveal-delay-1" data-cat="corporate" onclick="openLightbox('corporate')">
         <div class="portfolio-img">
-          <img src="Corporate/1.jpg" alt="Corporate" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Corporate/01.jpg" alt="Corporate"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Corporate/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -876,11 +756,11 @@
         </div>
       </div>
 
-      <!-- Random Clicks -->
       <div class="portfolio-item reveal reveal-delay-2" data-cat="random" onclick="openLightbox('random')">
         <div class="portfolio-img">
-          <img src="Random/1.jpg" alt="Random Clicks" onerror="this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'">
-          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;opacity:0.25;font-size:2.5rem;">&#9673;</div>
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Random/01.jpg" alt="Random Clicks"
+               onerror="this.src='https://raw.githubusercontent.com/dheena09/portfolio/main/Random/01.jpeg';this.onerror=function(){this.style.display='none';this.parentNode.querySelector('.pi-fallback').style.display='flex'}">
+          <div class="pi-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;opacity:0.25;font-size:2.5rem;">&#9673;</div>
           <div class="portfolio-img-bg"></div>
         </div>
         <div class="portfolio-overlay">
@@ -911,7 +791,6 @@
   <div class="section-inner">
     <p class="section-label reveal">Services</p>
     <h2 class="section-title reveal reveal-delay-1">What I <em>offer</em></h2>
-
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-num">01</div>
@@ -938,6 +817,11 @@
         <h3 class="service-title">Corporate</h3>
         <p class="service-desc">Professional event photography for corporate gatherings, product launches, and brand moments — clean, sharp, and ready for your business needs.</p>
       </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">06</div>
+        <h3 class="service-title">Random Clicks</h3>
+        <p class="service-desc">Landscapes, statues, flowers, and the quiet beauty of the world around us — candid frames born from curiosity and a love for storytelling through light.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -950,11 +834,16 @@
 
     <div class="contact-grid">
       <div>
-        <h3 class="contact-info reveal reveal-delay-2" style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--white);margin-bottom:1.5rem;">Ready to tell<br>your story?</h3>
+        <h3 class="reveal reveal-delay-2" style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--white);margin-bottom:1.5rem;">Ready to tell<br>your story?</h3>
         <p class="reveal reveal-delay-2" style="font-size:0.9rem;line-height:1.9;color:var(--white-muted);margin-bottom:3rem;">Every great photograph begins with a conversation. Reach out and let's talk about your vision, your project, and how we can make something beautiful together.</p>
 
         <div class="contact-detail">
+          <!-- NAME first -->
           <div class="contact-item reveal reveal-delay-1">
+            <span class="contact-item-label">Name</span>
+            <span class="contact-item-val">Dheena Dayalan S.</span>
+          </div>
+          <div class="contact-item reveal reveal-delay-2">
             <span class="contact-item-label">Mobile</span>
             <span class="contact-item-val"><a href="tel:+919443738759" style="color:var(--white);text-decoration:none;">+91 94437 38759</a></span>
           </div>
@@ -1036,140 +925,149 @@
 </footer>
 
 <script>
+  // ---- CURSOR ----
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
-
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
   });
-
   function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
     requestAnimationFrame(animateRing);
   }
   animateRing();
-
   document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(1.3)';
-      ring.style.width = '70px'; ring.style.height = '70px';
-      ring.style.opacity = '0.25';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-      ring.style.width = '52px'; ring.style.height = '52px';
-      ring.style.opacity = '0.5';
-    });
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1.3)'; ring.style.width = '70px'; ring.style.height = '70px'; ring.style.opacity = '0.25'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '0.5'; });
   });
-
   document.addEventListener('click', () => {
     cursor.style.transform = 'translate(-50%,-50%) scale(0.75)';
-    ring.style.width = '80px'; ring.style.height = '80px';
-    ring.style.opacity = '0.8';
+    ring.style.width = '80px'; ring.style.height = '80px'; ring.style.opacity = '0.8';
     ring.style.borderColor = 'rgba(240,188,74,0.9)';
     setTimeout(() => {
       cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-      ring.style.width = '52px'; ring.style.height = '52px';
-      ring.style.opacity = '0.5';
+      ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '0.5';
       ring.style.borderColor = 'rgba(225,161,32,0.35)';
     }, 200);
   });
 
+  // ---- NAVBAR SCROLL ----
   const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
-  });
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
 
+  // ---- REVEAL ON SCROLL ----
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   reveals.forEach(r => observer.observe(r));
 
   // ---- ENQUIRY FORM ----
   function submitEnquiry() {
-    const name    = document.getElementById('enq-name').value.trim();
-    const phone   = document.getElementById('enq-phone').value.trim();
-    const email   = document.getElementById('enq-email').value.trim();
+    const name = document.getElementById('enq-name').value.trim();
+    const phone = document.getElementById('enq-phone').value.trim();
+    const email = document.getElementById('enq-email').value.trim();
     const service = document.getElementById('enq-service').value;
-    const date    = document.getElementById('enq-date').value;
-    const msg     = document.getElementById('enq-msg').value.trim();
-
-    if (!name || !phone || !service) {
-      alert('Please fill in at least your Name, Mobile, and Service required.');
-      return;
-    }
-
+    const date = document.getElementById('enq-date').value;
+    const msg = document.getElementById('enq-msg').value.trim();
+    if (!name || !phone || !service) { alert('Please fill in at least your Name, Mobile, and Service required.'); return; }
     const subject = encodeURIComponent('New Enquiry: ' + service + ' – ' + name);
-    const body = encodeURIComponent(
-      'Name: ' + name + '\n' +
-      'Mobile: ' + phone + '\n' +
-      'Email: ' + email + '\n' +
-      'Service: ' + service + '\n' +
-      'Event Date: ' + (date || 'Not specified') + '\n\n' +
-      'Message:\n' + msg
-    );
+    const body = encodeURIComponent('Name: ' + name + '\nMobile: ' + phone + '\nEmail: ' + email + '\nService: ' + service + '\nEvent Date: ' + (date || 'Not specified') + '\n\nMessage:\n' + msg);
     window.open('mailto:dstriverstudio@gmail.com?subject=' + subject + '&body=' + body, '_blank');
-
     const timestamp = new Date().toLocaleString('en-IN');
     const csvRow = [timestamp, name, phone, email, service, date, '"' + msg.replace(/"/g,'""') + '"'].join(',');
     const csvContent = 'data:text/csv;charset=utf-8,Timestamp,Name,Mobile,Email,Service,Event Date,Message\n' + csvRow;
     const link = document.createElement('a');
     link.setAttribute('href', encodeURI(csvContent));
     link.setAttribute('download', 'DSS_Enquiry_' + name.replace(/\s/g,'_') + '.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
     document.getElementById('enq-success').style.display = 'block';
     document.getElementById('enq-btn').textContent = 'Sent ✓';
     document.getElementById('enq-btn').style.background = 'var(--gold-dim)';
   }
 
-  // ---- GALLERY & LIGHTBOX ----
+  // ---- FILTER BUTTONS ----
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // ---- IMAGE GALLERY ENGINE ----
+  // GitHub raw base
   const GH_BASE = 'https://raw.githubusercontent.com/dheena09/portfolio/main/';
 
   const FOLDERS = {
-    portrait:    { label: 'Portraits',     folder: 'Portraits',    count: 50 },
-    wedding:     { label: 'Weddings',      folder: 'Weddings',     count: 20 },
-    newlife:     { label: 'New Life',      folder: 'Newlife',      count: 20 },
-    celebration: { label: 'Celebrations',  folder: 'Celebrations', count: 60 },
-    corporate:   { label: 'Corporate',     folder: 'Corporate',    count: 20 },
-    random:      { label: 'Random Clicks', folder: 'Random',       count: 50 },
+    portrait:    { label: 'Portraits',     folder: 'Portraits' },
+    wedding:     { label: 'Weddings',      folder: 'Weddings' },
+    newlife:     { label: 'New Life',      folder: 'Newlife' },
+    celebration: { label: 'Celebrations',  folder: 'Celebrations' },
+    corporate:   { label: 'Corporate',     folder: 'Corporate' },
+    random:      { label: 'Random Clicks', folder: 'Random' },
   };
 
-  const validatedCache = {};
-  let lbImages = [], lbIndex = 0;
-
-  // Try each extension in order for one number — resolves URL or null
-  function tryImage(folder, num) {
-    const n = num.toString().padStart(2, '0');
-    const base = GH_BASE + folder + '/' + n;
-    const exts = ['.jpeg', '.jpg', '.JPG', '.JPEG', '.png'];
+  // Try extensions in priority order. Returns first that loads, or null.
+  function tryExtensions(base) {
+    const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG'];
     return new Promise(resolve => {
-      let i = 0;
-      function next() {
+      let tried = 0;
+      function next(i) {
         if (i >= exts.length) { resolve(null); return; }
-        const url = base + exts[i++];
         const img = new Image();
-        img.onload  = () => resolve(url);
-        img.onerror = next;
-        img.src = url;
+        img.onload = () => resolve(base + exts[i]);
+        img.onerror = () => next(i + 1);
+        img.src = base + exts[i];
       }
-      next();
+      next(0);
     });
   }
+
+  // Scan a folder sequentially: 01, 02, 03 … stop after MAX_GAP consecutive failures
+  // This preserves strict numeric order and handles gaps (missing numbers)
+  async function scanFolder(folder, maxNum = 60, maxGap = 3) {
+    const results = [];
+    let gaps = 0;
+    for (let i = 1; i <= maxNum; i++) {
+      const n = i.toString().padStart(2, '0');
+      const base = GH_BASE + folder + '/' + n;
+      const url = await tryExtensions(base);
+      if (url) {
+        results.push(url);
+        gaps = 0; // reset gap counter on success
+      } else {
+        gaps++;
+        if (gaps >= maxGap) break; // stop if too many consecutive misses
+      }
+    }
+    return results;
+  }
+
+  // Cache validated image lists per category
+  const cache = {};
+
+  async function getImages(cat) {
+    if (cache[cat]) return cache[cat];
+    const folder = FOLDERS[cat].folder;
+    const imgs = await scanFolder(folder, 60, 3);
+    cache[cat] = imgs;
+    return imgs;
+  }
+
+  // ---- LIGHTBOX STATE ----
+  let lbImages = [], lbIndex = 0;
 
   function buildDots(total, current) {
     const dots = document.getElementById('lbDots');
     dots.innerHTML = '';
-    if (total <= 20) {
+    if (total <= 25) {
       for (let i = 0; i < total; i++) {
         const d = document.createElement('div');
         d.className = 'lightbox-dot' + (i === current ? ' active' : '');
@@ -1186,7 +1084,8 @@
     setTimeout(() => {
       img.src = lbImages[lbIndex];
       img.onload = () => img.classList.remove('fading');
-    }, 100);
+      img.onerror = () => { img.classList.remove('fading'); };
+    }, 120);
     document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
     buildDots(lbImages.length, lbIndex);
     document.getElementById('lbPrev').style.opacity = lbImages.length > 1 ? '1' : '0.2';
@@ -1198,46 +1097,19 @@
     lb.classList.add('active');
     document.body.style.overflow = 'hidden';
     document.getElementById('lbCat').textContent = FOLDERS[cat].label;
-    document.getElementById('lbCounter').textContent = 'Loading...';
+    document.getElementById('lbCounter').textContent = 'Loading…';
     document.getElementById('lbImg').src = '';
     document.getElementById('lbDots').innerHTML = '';
 
-    // Use cache if available
-    if (validatedCache[cat] && validatedCache[cat].length > 0) {
-      lbImages = validatedCache[cat];
-      lbIndex = 0;
-      renderLbImage();
+    const valid = await getImages(cat);
+
+    if (!valid.length) {
+      document.getElementById('lbCounter').textContent = 'No images found';
       return;
     }
-
-    // Sequential load — shows first image immediately, keeps adding as they load
-    const { folder, count } = FOLDERS[cat];
-    lbImages = [];
+    lbImages = valid;
     lbIndex = 0;
-    let firstShown = false;
-    let misses = 0;
-
-    for (let i = 1; i <= count; i++) {
-      if (!lb.classList.contains('active')) break; // user closed
-      const url = await tryImage(folder, i);
-      if (url) {
-        lbImages.push(url);
-        misses = 0;
-        if (!firstShown) {
-          firstShown = true;
-          renderLbImage();
-        } else {
-          document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
-          buildDots(lbImages.length, lbIndex);
-        }
-      } else {
-        misses++;
-        if (misses >= 5 && lbImages.length > 0) break;
-      }
-    }
-
-    if (!lbImages.length) document.getElementById('lbCounter').textContent = 'No images found';
-    validatedCache[cat] = [...lbImages];
+    renderLbImage();
   }
 
   function closeLightbox() {
@@ -1252,6 +1124,7 @@
     renderLbImage();
   }
 
+  // Keyboard navigation
   document.addEventListener('keydown', e => {
     if (!document.getElementById('lightbox').classList.contains('active')) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') lbNav(1);
@@ -1259,10 +1132,12 @@
     if (e.key === 'Escape') closeLightbox();
   });
 
+  // Click backdrop to close
   document.getElementById('lightbox').addEventListener('click', e => {
     if (e.target === document.getElementById('lightbox')) closeLightbox();
   });
 
+  // Touch swipe
   let tsX = 0;
   document.getElementById('lbImg').addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive: true });
   document.getElementById('lbImg').addEventListener('touchend', e => {
@@ -1270,17 +1145,8 @@
     if (Math.abs(dx) > 40) lbNav(dx < 0 ? 1 : -1);
   });
 
-  // ---- FILTER BUTTONS ----
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.dataset.cat;
-      document.querySelectorAll('.portfolio-item').forEach(item => {
-        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
-      });
-    });
-  });
+  // Pre-warm all categories silently after 2s
+  setTimeout(() => Object.keys(FOLDERS).forEach(cat => getImages(cat)), 2000);
 </script>
 </body>
 </html>
