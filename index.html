@@ -37,7 +37,7 @@
   .cursor {
     width: 36px; height: 36px;
     position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
+    pointer-events: none; z-index: 99999;
     transform: translate(-50%, -50%);
     transition: transform 0.12s ease;
   }
@@ -47,7 +47,7 @@
     border: 1px solid rgba(225,161,32,0.35);
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
+    pointer-events: none; z-index: 99998;
     transform: translate(-50%, -50%);
     transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
     opacity: 0.5;
@@ -139,8 +139,9 @@
     grid-column: 2;
     grid-row: 1 / -1;
     display: flex;
-    align-items: flex-end;
-    padding-bottom: 0;
+    align-items: center;
+    padding-bottom: 4rem;
+    padding-right: 5rem;
   }
   .hero-photo {
     width: 320px;
@@ -1185,78 +1186,105 @@
     document.getElementById('enq-btn').style.background = 'var(--gold-dim)';
   }
 
-  // GitHub raw base URL — images are served directly from your repo
+  // GitHub raw base URL
   const GH_BASE = 'https://raw.githubusercontent.com/dheena09/portfolio/main/';
 
-  const galleryData = {
-    portrait:    { label: 'Portraits',     folder: 'Portraits',    files: scanFolder('Portraits', 30) },
-    wedding:     { label: 'Weddings',      folder: 'Weddings',     files: scanFolder('Weddings', 30) },
-    newlife:     { label: 'New Life',      folder: 'Newlife',      files: scanFolder('Newlife', 30) },
-    celebration: { label: 'Celebrations',  folder: 'Celebrations', files: scanFolder('Celebrations', 30) },
-    corporate:   { label: 'Corporate',     folder: 'Corporate',    files: scanFolder('Corporate', 30) },
-    random:      { label: 'Random Clicks', folder: 'Random',       files: scanFolder('Random', 30) },
+  const FOLDERS = {
+    portrait:    { label: 'Portraits',     folder: 'Portraits' },
+    wedding:     { label: 'Weddings',      folder: 'Weddings' },
+    newlife:     { label: 'New Life',      folder: 'Newlife' },
+    celebration: { label: 'Celebrations',  folder: 'Celebrations' },
+    corporate:   { label: 'Corporate',     folder: 'Corporate' },
+    random:      { label: 'Random Clicks', folder: 'Random' },
   };
 
-  function scanFolder(folder, max) {
-    const imgs = [];
-    for (let i = 1; i <= max; i++) {
-      const num = i.toString().padStart(2, '0');
-      // Try .jpg first; onerror in showLbImage will skip if missing
-      imgs.push(GH_BASE + folder + '/' + num + '.jpg');
-      imgs.push(GH_BASE + folder + '/' + num + '.jpeg');
-      imgs.push(GH_BASE + folder + '/' + num + '.JPG');
-      imgs.push(GH_BASE + folder + '/' + num + '.png');
-    }
-    return imgs;
+  // Pre-check a single URL — returns a Promise<string|null>
+  function checkImg(url) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload  = () => resolve(url);
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
   }
 
-  let lbCat = null, lbIndex = 0, lbImages = [], lbLoaded = [];
+  // Build candidate list for a folder (01.jpg, 01.jpeg, 01.png ... up to max)
+  function candidates(folder, max) {
+    const list = [];
+    for (let i = 1; i <= max; i++) {
+      const n = i.toString().padStart(2, '0');
+      list.push(GH_BASE + folder + '/' + n + '.jpg');
+      list.push(GH_BASE + folder + '/' + n + '.jpeg');
+      list.push(GH_BASE + folder + '/' + n + '.png');
+    }
+    return list;
+  }
+
+  // Cache of validated image lists per category
+  const validatedCache = {};
+
+  // Validate all candidates in parallel, return only those that load
+  async function validateImages(cat) {
+    if (validatedCache[cat]) return validatedCache[cat];
+    const folder = FOLDERS[cat].folder;
+    const urls = candidates(folder, 30);
+    const results = await Promise.all(urls.map(checkImg));
+    const valid = results.filter(Boolean);
+    validatedCache[cat] = valid;
+    return valid;
+  }
+
+  // ---- LIGHTBOX STATE ----
+  let lbImages = [], lbIndex = 0;
 
   function buildDots(total, current) {
     const dots = document.getElementById('lbDots');
     dots.innerHTML = '';
-    // Only show dots if ≤ 20 images (beyond that just show counter)
     if (total <= 20) {
       for (let i = 0; i < total; i++) {
         const d = document.createElement('div');
         d.className = 'lightbox-dot' + (i === current ? ' active' : '');
-        d.onclick = () => { lbIndex = i; showLbImage(); };
+        d.onclick = () => { lbIndex = i; renderLbImage(); };
         dots.appendChild(d);
       }
     }
   }
 
-  function showLbImage() {
+  function renderLbImage() {
+    if (!lbImages.length) return;
     const img = document.getElementById('lbImg');
     img.classList.add('fading');
     setTimeout(() => {
       img.src = lbImages[lbIndex];
       img.onload = () => img.classList.remove('fading');
-      img.onerror = () => {
-        // Skip missing images by going to next
-        lbImages.splice(lbIndex, 1);
-        if (lbImages.length === 0) { closeLightbox(); return; }
-        if (lbIndex >= lbImages.length) lbIndex = 0;
-        showLbImage();
-        return;
-      };
-    }, 120);
+    }, 100);
     document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
     buildDots(lbImages.length, lbIndex);
     document.getElementById('lbPrev').style.opacity = lbImages.length > 1 ? '1' : '0.2';
     document.getElementById('lbNext').style.opacity = lbImages.length > 1 ? '1' : '0.2';
   }
 
-  function openLightbox(cat) {
-    lbCat = cat;
-    lbIndex = 0;
-    const data = galleryData[cat];
-    // Start with all candidate paths; onerror in showLbImage prunes missing ones
-    lbImages = [...data.files];
-    document.getElementById('lbCat').textContent = data.label;
-    document.getElementById('lightbox').classList.add('active');
+  async function openLightbox(cat) {
+    // Show lightbox with loading state immediately
+    const lb = document.getElementById('lightbox');
+    lb.classList.add('active');
     document.body.style.overflow = 'hidden';
-    showLbImage();
+    document.getElementById('lbCat').textContent = FOLDERS[cat].label;
+    document.getElementById('lbCounter').textContent = 'Loading...';
+    document.getElementById('lbImg').src = '';
+    document.getElementById('lbDots').innerHTML = '';
+
+    // Validate images (uses cache on repeat opens)
+    const valid = await validateImages(cat);
+
+    if (!valid.length) {
+      document.getElementById('lbCounter').textContent = 'No images found';
+      return;
+    }
+
+    lbImages = valid;
+    lbIndex = 0;
+    renderLbImage();
   }
 
   function closeLightbox() {
@@ -1266,8 +1294,9 @@
   }
 
   function lbNav(dir) {
+    if (!lbImages.length) return;
     lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
-    showLbImage();
+    renderLbImage();
   }
 
   // Keyboard navigation
@@ -1283,6 +1312,14 @@
     if (e.target === document.getElementById('lightbox')) closeLightbox();
   });
 
+  // Touch swipe for mobile
+  let tsX = 0;
+  document.getElementById('lbImg').addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive: true });
+  document.getElementById('lbImg').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tsX;
+    if (Math.abs(dx) > 40) lbNav(dx < 0 ? 1 : -1);
+  });
+
   // ---- FILTER BUTTONS ----
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1294,13 +1331,11 @@
       });
     });
   });
-  // Touch swipe for mobile lightbox
-  let tsX = 0;
-  document.getElementById('lbImg').addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive: true });
-  document.getElementById('lbImg').addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tsX;
-    if (Math.abs(dx) > 40) lbNav(dx < 0 ? 1 : -1);
-  });
+
+  // Pre-warm cache for all categories silently in background
+  setTimeout(() => {
+    Object.keys(FOLDERS).forEach(cat => validateImages(cat));
+  }, 2000);
 </script>
 </body>
 </html>
