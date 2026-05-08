@@ -66,6 +66,7 @@
     border-bottom: 1px solid transparent;
     transition: border-color 0.4s, background 0.4s, backdrop-filter 0.4s;
   }
+  
   nav.scrolled {
     border-color: var(--border);
     background: rgba(10,10,10,0.85);
@@ -80,6 +81,9 @@
     color: #e1a120;
     text-decoration: none;
     display: flex; align-items: center; gap: 0.8rem;
+  }
+  .nav-logo img {
+    height: 36px;
   }
   .nav-logo-tag {
     font-family: 'Josefin Sans', sans-serif;
@@ -512,6 +516,9 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .nav-logo-tag {
       display: block;
@@ -632,7 +639,7 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">D Striver Studio<span class="nav-logo-tag">Capturing stories through my lens</span></a>
+  <img src="logo.jpg" alt="D Striver Studio Logo">
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
