@@ -598,7 +598,16 @@
     .service-title { font-size: 1.3rem; }
     .service-desc { font-size: 0.88rem; }
 
-    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { 
+      grid-template-columns: 1fr; 
+      gap: 3rem; 
+      display: flex;
+      flex-direction: column;
+    }
+    .contact-grid > div:last-child {
+      order: -1;
+      margin-bottom: 2rem;
+    }
     .form-row { grid-template-columns: 1fr; }
 
     footer { flex-direction: column; align-items: center; gap: 1.2rem; text-align: center; padding: 2rem 1.5rem; }
