@@ -136,6 +136,8 @@
     align-items: flex-end;
     padding-bottom: 3rem;
     position: relative; z-index: 1;
+    justify-content: flex-start;
+  transform: translateX(-160px);
   }
   .hero-photo {
     width: 100%;
@@ -200,14 +202,7 @@
     white-space: nowrap;
   }
   .hero-name em { font-style: italic; color: #e1a120; }
-  .hero-divider {
-    width: 100%; height: 1px;
-    background: var(--border-strong);
-    margin-top: 1.4rem;
-    position: relative; z-index: 1;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.45s forwards;
-  }
+  
   .hero-cta {
     margin-top: 3.5rem;
     display: flex; align-items: center; gap: 2rem;
@@ -666,7 +661,7 @@
     <div class="about-grid">
       <div class="about-img-wrap reveal reveal-delay-2">
         <div class="about-img-placeholder">
-          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/D%20pic.jpeg"
+          <img src="https://raw.githubusercontent.com/dheena09/portfolio/main/Dprof.jpeg"
                alt="Dheena Dayalan S."
                style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"
                onerror="this.style.display='none';document.querySelector('.img-fallback').style.display='flex'">
@@ -850,11 +845,6 @@
         <div class="service-num">05</div>
         <h3 class="service-title">Corporate</h3>
         <p class="service-desc">Professional event photography for corporate gatherings, product launches, and brand moments — clean, sharp, and ready for your business needs.</p>
-      </div>
-      <div class="service-card reveal reveal-delay-3">
-        <div class="service-num">06</div>
-        <h3 class="service-title">Random Clicks</h3>
-        <p class="service-desc">Landscapes, statues, flowers, and the quiet beauty of the world around us — candid frames born from curiosity and a love for storytelling through light.</p>
       </div>
     </div>
   </div>
