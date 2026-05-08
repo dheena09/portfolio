@@ -541,6 +541,9 @@
       padding-bottom: 0;
       padding-right: 0;
       align-items: center;
+      transform: translateX(0) !important;
+      margin-left: 0 !important;
+      justify-content: center;
     }
     .hero-photo { width: 180px; height: 250px; }
     .hero-content {
@@ -553,7 +556,11 @@
     .btn-gold, .btn-outline { width: 100%; text-align: center; padding: 0.9rem 1.5rem; }
     .hero-scroll { display: none; }
 
-    .section-inner { padding: 5rem 1.5rem; }
+    .section-inner { 
+      padding: 5rem 1.5rem; 
+      width: 100%;
+      margin: 0 auto;
+    }
     .section-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
 
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -561,6 +568,12 @@
     .stat-num { font-size: 2rem; }
     .stat-label { font-size: 0.58rem; }
 
+    .portfolio-header,
+    .about-grid,
+    .hero-content {
+      margin-left: 0 !important;
+      transform: none !important;
+    }
     .portfolio-header { flex-direction: column; align-items: flex-start; gap: 2rem; }
     .filter-btns { flex-wrap: wrap; gap: 0.5rem; }
     .filter-btn { font-size: 0.58rem; padding: 0.45rem 0.9rem; cursor: auto; }
